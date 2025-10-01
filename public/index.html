@@ -1,0 +1,255 @@
+<html>
+  <head>
+    <style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        margin: 0;
+        background: black;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      input::placeholder {
+        color: #94a3b8;
+      }
+
+      canvas {
+        width: 1024px;
+        height: 576px;
+        background-image: url('/assets/background.png');
+        border: 2px solid #ccccd5;
+      }
+
+      .itemBorder {
+        display: flex;
+        box-sizing: border-box;
+        width: 220px;
+        height: 70px;
+        border: 1px solid white;
+        background: rgba(69, 67, 67, 0.5); 
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        font-family: taken;
+        font-size: 20px;
+        position: relative;
+      }
+      
+      .numbers {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        margin: 0;
+        padding: 0;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .weaponText {
+        color: white;
+        font-size: 25px; 
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        max-width: 100%;   
+        } 
+      
+    </style>
+  </head>
+  <body style="display: flex; align-items: center; justify-content: center">
+    <div>
+      <div
+        style="
+          position: absolute;
+          color: white;
+          padding: 8px;
+          font-family: sans-serif;
+          font-size: 14px;
+          user-select: none;
+          background: rgba(0, 0, 0, 0.5);
+        "
+      >
+        <div style="margin-bottom: 8px">Leaderboard</div>
+        <div id="playerLabels"></div>
+      </div>
+      <canvas></canvas>
+      
+      <!-- Inventory slots -->
+      <div 
+        id = "inventoryArea"
+        style = "
+          display: none;
+          position: relative;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-evenly;
+          width: 230px;
+          height: 156px;
+          bottom: 80px;
+          left: 910px;
+          transform: translate(-50%, -50%);">
+        <div 
+          class = "itemBorder"
+          id = "inventorySlot1">
+          <div class = "numbers">1</div>
+          <div class = "weaponText" id = "inventorySlot1Text"></div>
+        </div>
+        <div 
+          class = "itemBorder"
+          id = "inventorySlot2"
+          >
+          <div class = "numbers">2</div>
+          <div class = "weaponText" id = "inventorySlot2Text"></div>
+        </div>
+      </div>
+
+      <!-- Username and Class Selection Form -->
+      <div
+        id = "menu"
+        style=" 
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;">
+        
+        <!-- Shows the username -->
+        <form id="usernameForm">
+          <div 
+            id="selectedRandomName"
+            type="text"
+            style="
+              width: 227px;
+              padding: 10px;
+              box-sizing: border-box;
+              border-radius: 5px;
+              border: none;
+              background: #475569;
+              color: #cbd5e1;
+              text-align: center;">
+          </div>
+
+          <!-- Class Selector Buttons-->
+          <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
+            
+            <!-- Left Button Class -->
+            <button 
+              type="button"
+              id="classSelectorLeft"
+              style="
+                padding: 10px; 
+                border-radius: 5px;
+                border: none;
+                background-image: linear-gradient(to right, #06b6d4, #3b82f6);
+                color: white;
+                cursor: pointer;">
+              ←
+            </button>
+
+            <!-- Shows Selected Class -->
+            <button 
+              type="button"
+              id="showClass"
+              style="
+                width: 140px;
+                padding: 10px; 
+                border-radius: 5px;
+                box-sizing: border-box;
+                border: none;
+                background: linear-gradient(to right, #06b6d4, #3b82f6);
+                color: white;
+                font-weight: bold;
+                text-transform: uppercase;
+                cursor: default;">
+            </button>
+
+            <!-- Right Button Class -->
+            <button 
+              type="button"
+              id="classSelectorRight"
+              style="
+                padding: 10px; 
+                border-radius: 5px;
+                border: none;
+                background-image: linear-gradient(to right, #06b6d4, #3b82f6);
+                color: white;
+                cursor: pointer;">
+              →
+            </button>
+            
+          </div>
+
+          <!-- Action Buttons -->
+          <div style="margin-top: 8px; display: flex; gap: 8px;">
+            
+            <!-- Start Button -->
+            <button
+              type="submit"
+              style="
+                padding: 8px 20px; 
+                border-radius: 5px;
+                border: none;
+                background: linear-gradient(to right, #06b6d4, #3b82f6);
+                color: white;
+                font-weight: bold;
+                text-transform: uppercase;
+                cursor: pointer;">
+              Start!
+            </button>
+
+            <!-- Random Name Button -->
+            <button
+              type="button"
+              id="randomNameBtn"
+              style="
+                padding: 8px 15px;
+                border-radius: 5px;
+                border: none;
+                background: linear-gradient(to right, #06b6d4, #3b82f6);
+                color: white;
+                font-weight: bold;
+                text-transform: uppercase;
+                cursor: pointer;">
+              Random Name
+            </button>
+          </div>
+        </form>
+      </div>
+    <!-- username input end -->
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.2/gsap.min.js"
+      integrity="sha512-kVlGhj2qFy+KBCFuvjBJTGUMxbdqJKs4yK2jh0e0VPhWUPiPC87bzm4THmaaIee3Oj7j6sDpTTgm2EPPiESqBg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="./js/classes/Enemy.js"></script>
+    <script src="./js/classes/Player.js"></script>
+    <script src="./js/classes/Particle.js"></script>
+    <script src="./js/classes/Projectile.js"></script>
+    <script src="./js/FrontWeaponStuff/WeaponDrawning.js"></script>
+    <script src="./js/frontend.js"></script>
+    <script src="./js/eventListeners.js"></script>
+    <!-- Custom Cursor Script -->
+    <script>
+      // Set a custom cursor for the body and canvas
+      const customCursorImage = "/assets/CrosshairCursor.png"; // Update the path if needed
+
+      // Apply the custom cursor to the body
+      document.body.style.cursor = `url(${customCursorImage}) ${16} ${16}, auto`;
+
+      // Apply the custom cursor to the canvas
+      canvas.style.cursor = `url(${customCursorImage}) ${16} ${16}, auto`;
+    </script>
+  </body>
+</html>
