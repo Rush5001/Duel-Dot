@@ -86,16 +86,6 @@ npm start
 
 ---
 
-## 🤝 Contributing
-
-Join the DuelDot development! Areas for contribution:
-- **Gameplay Features** - New mechanics and game modes
-- **Performance Optimization** - Smoother multiplayer experience
-- **UI/UX Improvements** - Enhanced user interface
-- **Bug Fixes** - Stability and compatibility improvements
-  
----
-
 ## 📝 License
 
 Open source project available for educational and personal use. With proper attribution given.
